@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GYM SHOP - Dụng Cụ Tập Thể Hình</title>
+    <link rel="stylesheet" href="src/main/resources/static/css/home.css">
+</head>
+<body>
+<header class="header">
+    <div class="container">
+        <div class="header-top">
+            <div class="header-links">
+                <a href="#" class="connect-link"><i class="fas fa-link"></i> Kết nối</a>
+                <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i><span class="sr-only">Facebook</span></a>
+                <a href="#" title="Instagram"><i class="fab fa-instagram"></i><span class="sr-only">Instagram</span></a>
+            </div>
+            <div class="header-actions">
+                <a href="#" id="help-btn"><i class="fas fa-question-circle"></i> Trợ giúp</a>
+                <a th:href="@{/login}" id="login-btn">Đăng nhập</a>
+                <a th:href="@{/register}" id="register-btn">Đăng ký</a>
+
+                <a href="#" id="cart-btn" class="cart">🛒 <span id="cart-count">0</span></a>
+                <button type="button" class="menu-toggle" aria-label="Toggle menu"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+        <div class="header-main">
+            <div class="logo">
+                <span class="logo-text">GYM SHOP</span>
+            </div>
+            <div class="search-box">
+                <input type="text" id="search-input" placeholder="Tìm kiếm sản phẩm...">
+                <button type="button" onclick="searchProducts()" aria-label="Search">🔍</button>
+            </div>
+        </div>
+    </div>
+    <!-- Cart Panel -->
+    <div id="cart-panel" class="cart-panel hidden">
+        <div class="cart-panel-header">
+            <h3>Giỏ hàng của bạn</h3>
+            <button type="button" id="close-cart-panel" class="close-cart-panel">✖</button>
+        </div>
+        <div class="cart-panel-items" id="cart-panel-items">
+            <!-- Danh sách sản phẩm sẽ được thêm bằng JavaScript -->
+        </div>
+        <div class="cart-panel-footer">
+            <div class="cart-panel-total">
+                <span>Tổng cộng:</span>
+                <span id="cart-total">0 VNĐ</span>
+            </div>
+            <button type="button" id="checkout-btn" class="checkout-btn">Thanh toán</button>
+        </div>
+    </div>
+</header>
+
+<main class="main">
+    <aside class="sidebar">
+        <h3>Danh mục</h3>
+        <ul id="category-list">
+            <li data-category="all" class="active">Tất cả</li>
+            <li data-category="dungcutapta">Dụng cụ tập tạ</li>
+            <li data-category="cardio">Máy tập cardio</li>
+            <li data-category="toanthan">Dụng cụ tập toàn thân</li>
+            <li data-category="phukien">Phụ kiện tập luyện</li>
+            <li data-category="phuchoihotro">Dụng cụ hỗ trợ phục hồi</li>
+            <li data-category="thucphambosung">Thực phẩm bổ sung</li>
+            <li data-category="doiluong">Dụng cụ đo lường sức khỏe</li>
+        </ul>
+    </aside>
+
+    <section class="products">
+        <div class="filters">
+            <button type="button" data-filter="popular">Phổ biến</button>
+            <button type="button" data-filter="newest" class="active">Mới nhất</button>
+            <button type="button" data-filter="bestseller">Bán chạy</button>
+            <select id="sort-price">
+                <option value="">Sắp xếp theo giá</option>
+                <option value="asc">Giá: Thấp đến Cao</option>
+                <option value="desc">Giá: Cao đến Thấp</option>
+            </select>
+        </div>
+
+        <div class="product-list">
+        <!-- Danh sách sản phẩm sẽ được thêm tự động bằng JavaScript -->
+        </div>
+
+
+
+        <div class="pagination">
+            <button type="button" id="prev-page" disabled>Trước</button>
+            <span id="page-info">1</span>
+            <button type="button" id="next-page">Sau</button>
+        </div>
+    </section>
+</main>
+
+<!-- Modal Giỏ hàng -->
+<div id="cart-modal" class="modal hidden">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h2>Giỏ hàng của bạn</h2>
+        <ul id="cart-items"></ul>
+        <p>Tổng tiền: <span id="total-price">0</span> đ</p>
+    </div>
+</div>
+
+<!-- Modal Đăng nhập -->
+<div id="login-modal" class="modal hidden">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h2>Đăng nhập</h2>
+        <input type="text" placeholder="Tên đăng nhập">
+        <input type="password" placeholder="Mật khẩu">
+        <button type="button">Đăng nhập</button>
+    </div>
+</div>
+
+<!-- Modal Đăng ký -->
+<div id="register-modal" class="modal hidden">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h2>Đăng ký</h2>
+        <input type="text" placeholder="Tên đăng nhập">
+        <input type="email" placeholder="Email">
+        <input type="password" placeholder="Mật khẩu">
+        <button type="button">Đăng ký</button>
+    </div>
+</div>
+
+
+
+<script src="src/main/resources/static/js/home.js"></script>
+</body>
+</html>
