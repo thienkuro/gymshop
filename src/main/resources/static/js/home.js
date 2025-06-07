@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", async function () {
+document.addEventListener("DOMContentLoaded", function () {
     const $ = (selector) => document.querySelector(selector);
     const $$ = (selector) => document.querySelectorAll(selector);
 
@@ -11,54 +11,13 @@ document.addEventListener("DOMContentLoaded", async function () {
         nextPage: $("#next-page"),
         pageInfo: $("#page-info"),
         filterButtons: $$(".filters button"),
-        cartBtn: $("#cart-btn"),
-        cartPanel: $("#cart-panel"),
         cartPanelItems: $("#cart-panel-items"),
         cartTotal: $("#cart-total"),
-        checkoutBtn: $("#checkout-btn"),
-        loginBtn: $("#login-btn"),
-        registerBtn: $("#register-btn"),
-        modals: $$(".modal"),
-        closeButtons: $$(".close-modal"),
     };
 
     const itemsPerPage = 6;
     let currentPage = 1;
-    let products = [];
     let cart = [];
-
-    // Gọi API thật
-    async function fetchProducts() {
-        const res = await fetch("/products");
-        const data = await res.json();
-        products = data;
-        renderProductCards(products);
-        applyFilterAndSort("newest");
-    }
-
-    // Tạo HTML cho từng sản phẩm
-    function renderProductCards(products) {
-        elements.productList.innerHTML = "";
-        products.forEach(p => {
-            const card = document.createElement("div");
-            card.className = "product-card";
-            card.dataset.category = p.category;
-            card.dataset.date = p.date_added;
-            card.innerHTML = `
-                <img src="${p.image_url}" alt="${p.title}">
-                <h3 class="title">${p.title}</h3>
-                <p class="price"><span>${p.price}</span> VNĐ</p>
-                <p class="origin">Xuất xứ: ${p.origin}</p>
-                <p class="rating">⭐ ${p.sold}</p>
-                ${p.badge ? `<div class="badge">${p.badge}</div>` : ""}
-                <button class="add-to-cart">Thêm vào giỏ</button>
-            `;
-            elements.productList.appendChild(card);
-        });
-
-        // Gán lại sự kiện cho nút giỏ hàng
-        addCartEventListeners();
-    }
 
     function addCartEventListeners() {
         $$(".add-to-cart").forEach(btn => {
@@ -69,7 +28,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 const existing = cart.find(item => item.name === name);
                 if (!existing) {
                     cart.push({ name, price, quantity: 1 });
-                    saveCart();
+                    updateCartUI();
                     alert("Đã thêm sản phẩm vào giỏ hàng!");
                 } else {
                     alert("Sản phẩm đã có trong giỏ hàng!");
@@ -106,28 +65,18 @@ document.addEventListener("DOMContentLoaded", async function () {
         container.querySelectorAll(".decrease").forEach(btn => btn.onclick = () => {
             const i = btn.dataset.i;
             if (cart[i].quantity > 1) cart[i].quantity--;
-            saveCart();
+            updateCartUI();
         });
 
         container.querySelectorAll(".increase").forEach(btn => btn.onclick = () => {
             cart[btn.dataset.i].quantity++;
-            saveCart();
+            updateCartUI();
         });
 
         container.querySelectorAll(".remove-item").forEach(btn => btn.onclick = () => {
             cart.splice(btn.dataset.i, 1);
-            saveCart();
+            updateCartUI();
         });
-    }
-
-    async function saveCart() {
-        updateCartUI();
-        localStorage.setItem("cart", JSON.stringify(cart));
-    }
-
-    async function loadCart() {
-        cart = JSON.parse(localStorage.getItem("cart") || "[]");
-        updateCartUI();
     }
 
     function filterProducts(category = "all", query = "") {
@@ -161,10 +110,11 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         elements.productList.innerHTML = "";
         cards.forEach(c => elements.productList.appendChild(c));
+        addCartEventListeners();
         displayPage(currentPage, cards);
     }
 
-    // Gán sự kiện tìm kiếm, lọc
+    // Gán sự kiện lọc, tìm kiếm, phân trang
     elements.filterButtons.forEach(btn => {
         btn.onclick = () => {
             elements.filterButtons.forEach(b => b.classList.remove("active"));
@@ -193,6 +143,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
         elements.productList.innerHTML = "";
         cards.forEach(c => elements.productList.appendChild(c));
+        addCartEventListeners();
         displayPage(currentPage, cards);
     });
 
@@ -215,7 +166,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
     });
 
-    // Init
-    await fetchProducts();
-    await loadCart();
+    // Khởi tạo
+    applyFilterAndSort("newest");
 });

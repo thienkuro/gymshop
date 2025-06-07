@@ -16,7 +16,6 @@
                 <a href="#" title="Instagram"><i class="fab fa-instagram"></i><span class="sr-only">Instagram</span></a>
             </div>
             <div class="header-actions">
-                <a href="#" id="help-btn"><i class="fas fa-question-circle"></i> Trợ giúp</a>
                 <a th:href="@{/login}" id="login-btn">Đăng nhập</a>
                 <a th:href="@{/register}" id="register-btn">Đăng ký</a>
 
@@ -103,30 +102,6 @@
         <p>Tổng tiền: <span id="total-price">0</span> đ</p>
     </div>
 </div>
-
-<!-- Modal Đăng nhập -->
-<div id="login-modal" class="modal hidden">
-    <div class="modal-content">
-        <span class="close-modal">&times;</span>
-        <h2>Đăng nhập</h2>
-        <input type="text" placeholder="Tên đăng nhập">
-        <input type="password" placeholder="Mật khẩu">
-        <button type="button">Đăng nhập</button>
-    </div>
-</div>
-
-<!-- Modal Đăng ký -->
-<div id="register-modal" class="modal hidden">
-    <div class="modal-content">
-        <span class="close-modal">&times;</span>
-        <h2>Đăng ký</h2>
-        <input type="text" placeholder="Tên đăng nhập">
-        <input type="email" placeholder="Email">
-        <input type="password" placeholder="Mật khẩu">
-        <button type="button">Đăng ký</button>
-    </div>
-</div>
-
 
 
 <script src="src/main/resources/static/js/home.js"></script>
